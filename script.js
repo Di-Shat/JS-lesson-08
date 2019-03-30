@@ -47,7 +47,7 @@ var typeMessage = ( function ( velocity ) {
   
     return function recurs ( message ) {
       let letter = message.split("").shift()
-      message = message.slise(1)
+      message = message.slice(1)
       setTimeout(
       () => conteiner.textContent += letter
       , 1000 * index++ * velocity  
