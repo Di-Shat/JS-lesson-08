@@ -5,7 +5,7 @@
 
 Контент элемента должен обновляться каждую секунду*/
 var clock = document.body.appendChild(
-    document.createElement('h1')
+    document.createElement('h2')
 );
 clock.innerText = new Date().toLocaleString().split(', ')[1]
 for(var i = 0; i < 100; i++) {
@@ -37,27 +37,25 @@ var typeMessage = ( function ( velocity ) {
 
 typeMessage ( `Welcome to the hell` )*/
 var typeMessage = ( function ( velocity ) {
-    var container = document.getElementById ( "demo" ) ?
+    let container = document.getElementById ( "demo" ) ?
         document.getElementById ( "demo" ) :
         document.body.appendChild (
             document.createElement ( "h3" )
-        )
+        );
     container.style = `color: magenta;`
-    let index = 0
-  
-    return function recurs ( message ) {
-      let letter = message.split("").shift()
-      message = message.slice(1)
-      setTimeout(
-      () => conteiner.textContent += letter
-      , 1000 * index++ * velocity  
-      )
-  
-    while (message.length) recurs(message)
-    }
-})( 1 )
+    var index = 0;
+    return function ( message ) {
+        var number = index
+        setTimeout (
+            () => container.textContent += message [ number ],
+            1000 * velocity * number
+        );
+        index++ < message.length - 1 ?
+            arguments.callee ( message ) : null
+    };
+})( 1 );
 
-typeMessage ( `Welcome to the hell` )
+typeMessage ( `Welcome to the hell` );
 ////////////////////////////////////////////////////////////////////////////////////////////
 /*Task-03
 Нужно сделать так, чтобы у всех экзепляров, созданных конструктором User, был унаследованный метод counter(), который считает созданные конструктором экземпляры
@@ -86,12 +84,14 @@ function User ( name ) {
     this.id = this.counter()
 }
 
-User.prototype.counter = (function(){
-	var id = 0
-    	return function(){
-            return typeof this.id === 'number' ? id : id++
-		}
-})()
+User.prototype.counter = (
+    function(){
+      var id = 0
+        return function(){
+          return typeof this.id === 'number' ? this.id : id++
+        }
+    }
+)()
 
 var users = [
     new User ( "Семен" ),
@@ -99,4 +99,5 @@ var users = [
     new User ( "Демьян" ),
     new User ( "Василий" )
 ]
+users[1].id = users[1].counter()
 ////////////////////////////////////////////////////////////////////////////////////////////////
