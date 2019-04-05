@@ -88,7 +88,8 @@ User.prototype.counter = (
     function(){
       var id = 0
         return function(){
-          return typeof this.id === 'number' ? this.id : id++
+          return typeof this.id === 'number' ? 
+          this.id : id++
         }
     }
 )()
